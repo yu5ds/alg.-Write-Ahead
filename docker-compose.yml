@@ -1,0 +1,49 @@
+version: '3'
+services:
+  leader-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: adminpassword
+      POSTGRES_DB: main_db
+    ports:
+      - "5432:5432"
+    networks:
+      - db_network
+    volumes:
+      - leader-db-data:/var/lib/postgresql/data
+
+  follower1-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: adminpassword
+      POSTGRES_DB: main_db
+    ports:
+      - "5435:5435"  # Cambié el puerto a 5435
+    networks:
+      - db_network
+    volumes:
+      - follower1-db-data:/var/lib/postgresql/data
+
+  follower2-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: adminpassword
+      POSTGRES_DB: main_db
+    ports:
+      - "5436:5436"  # Cambié el puerto a 5436
+    networks:
+      - db_network
+    volumes:
+      - follower2-db-data:/var/lib/postgresql/data
+
+networks:
+  db_network:
+    driver: bridge
+
+volumes:
+  leader-db-data:
+  follower1-db-data:
+  follower2-db-data:
